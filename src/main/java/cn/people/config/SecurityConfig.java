@@ -41,15 +41,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 配置安全过滤器:
-     *
+     *  配置登录界面、授权配置、scrf设置、跳转路径、逻辑认证
      * @param http
      * @throws Exception
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //禁用csrf
+        http.cors().disable();
+        http.formLogin()
+                .usernameParameter("username")
+                .passwordParameter("password");
         http.authorizeRequests()
                 .antMatchers("/").hasRole("USER")
                 .and()
             .formLogin();
+        http.authorizeRequests()
+                .antMatchers("/login")
+                .permitAll()
+                .anyRequest().access("@rbacService.hasPermission(httpServletRequest,authentication)");
+
     }
 }
