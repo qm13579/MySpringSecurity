@@ -2,7 +2,7 @@ package cn.people.utils.security.service.impl;
 
 import cn.people.domain.Permission;
 import cn.people.domain.Role;
-import cn.people.domain.User;
+import cn.people.domain.UserInfo;
 import cn.people.utils.security.service.RBACService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -25,7 +25,7 @@ public class RBACServiceImpl implements RBACService {
         log.info(principal.toString());
         boolean permission = false;
         if (principal instanceof UserDetails){
-            User user = ((User) principal);
+            UserInfo user = ((UserInfo) principal);
             HashSet<String> urls = new HashSet<>();
             for (Role role:user.getRoles()) {
                 for (Permission per :role.getPermissions()){

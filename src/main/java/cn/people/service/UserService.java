@@ -1,8 +1,6 @@
 package cn.people.service;
 
-import cn.people.domain.User;
 import cn.people.domain.vo.UserVO;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.validation.Valid;
 

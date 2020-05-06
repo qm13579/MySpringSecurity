@@ -22,10 +22,6 @@ public class MyApplication {
         SpringApplication.run(MyApplication.class,args);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     public IdWorker idWorker(){

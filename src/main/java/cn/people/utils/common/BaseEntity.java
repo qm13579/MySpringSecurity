@@ -12,8 +12,6 @@ import java.io.Serializable;
  * @description:
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class BaseEntity implements Serializable {
     public @interface Create {}
     public @interface Update {}
