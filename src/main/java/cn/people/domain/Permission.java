@@ -17,14 +17,14 @@ import java.util.List;
 @AllArgsConstructor
 public class Permission implements Serializable {
     private String id;
-    private String PermissionName;
+    private String permissionName;
     private List<Role> roles;
 
     @Override
     public String toString() {
         return "Permission{" +
                 "id='" + id + '\'' +
-                ", PermissionName='" + PermissionName + '\'' +
+                ", PermissionName='" + permissionName + '\'' +
                 ", roles=" + roles +
                 '}';
     }

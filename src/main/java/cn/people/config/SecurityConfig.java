@@ -2,6 +2,9 @@ package cn.people.config;
 
 import cn.people.service.UserService;
 import cn.people.service.impl.UserServiceImpl;
+import cn.people.utils.security.handle.AuthLimitHandler;
+import cn.people.utils.security.handle.LoginFailureHandler;
+import cn.people.utils.security.handle.LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,12 +54,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         //禁用csrf
         http.csrf().disable();
-
-        http.authorizeRequests()   //
+        http.authorizeRequests()
                 .antMatchers("/user/create").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().access("@rbacService.hasPermission(request,authentication)")
                 .and()
-            .formLogin();
+            .formLogin()
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .successHandler(new LoginSuccessHandler())  //登陆成功策略
+                .failureHandler(new LoginFailureHandler()) //登录失败策略
+                .and()
+            .exceptionHandling()
+                .accessDeniedHandler(new AuthLimitHandler());//权限不足策略
+//                .authenticationEntryPoint()登陆过期策略
 
     }
 

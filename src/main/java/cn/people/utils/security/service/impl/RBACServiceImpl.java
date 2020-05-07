@@ -22,7 +22,6 @@ public class RBACServiceImpl implements RBACService {
     @Override
     public boolean hasPermission(HttpServletRequest request, Authentication authentication){
         Object principal = authentication.getPrincipal();
-        log.info(principal.toString());
         boolean permission = false;
         if (principal instanceof UserDetails){
             UserInfo user = ((UserInfo) principal);

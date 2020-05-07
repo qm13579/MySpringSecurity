@@ -1,6 +1,7 @@
 package cn.people.dao;
 
 import cn.people.domain.Role;
+import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -20,7 +21,9 @@ public interface RoleMapper {
      */
     @Select("select * from role where id in (select role_id from user_m_role where user_id = #{uid}) ")
     @Results({
-            @Result(property = "roleName",column = "role_name")
+            @Result(property = "roleName",column = "role_name"),
+            @Result(property = "id",column = "id"),
+            @Result(property = "permissions",column = "id",javaType = java.util.List.class,many = @Many(select = "cn.people.dao.PermissionMapper.findPermissionByRoleId"))
     })
     List<Role> findRoleByUserId(String uid);
 }
