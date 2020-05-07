@@ -18,13 +18,15 @@ import java.util.List;
 public class Permission implements Serializable {
     private String id;
     private String permissionName;
+    private String method;
     private List<Role> roles;
 
     @Override
     public String toString() {
         return "Permission{" +
                 "id='" + id + '\'' +
-                ", PermissionName='" + permissionName + '\'' +
+                ", permissionName='" + permissionName + '\'' +
+                ", method='" + method + '\'' +
                 ", roles=" + roles +
                 '}';
     }

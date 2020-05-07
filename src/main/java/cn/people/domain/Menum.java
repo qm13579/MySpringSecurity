@@ -3,31 +3,32 @@ package cn.people.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.omg.CORBA.PRIVATE_MEMBER;
 
+import javax.print.DocFlavor;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author : FENGZHI
- * create at:  2020/5/5  下午4:12
+ * create at:  2020/5/7  下午9:03
  * @description:
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Role implements Serializable {
+public class Menum implements Serializable {
+
     private String id;
-    private String roleName;
-    private List<Permission> permissions;
-    private List<Menum> menums;
+
+    @NotBlank
+    private String menumName;
 
     @Override
     public String toString() {
-        return "Role{" +
+        return "Menum{" +
                 "id='" + id + '\'' +
-                ", roleName='" + roleName + '\'' +
-                ", permissions=" + permissions +
-                ", menums=" + menums +
+                ", menumName='" + menumName + '\'' +
                 '}';
     }
 }

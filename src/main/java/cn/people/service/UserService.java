@@ -1,8 +1,10 @@
 package cn.people.service;
 
+import cn.people.domain.UserInfo;
 import cn.people.domain.vo.UserVO;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author : FENGZHI
@@ -17,5 +19,28 @@ public interface UserService {
      */
     void save(@Valid UserVO userVO);
 
+    /**
+     * 更新用户
+     * @param userVO
+     */
     void update(UserVO userVO);
+
+    /**
+     * 根据id删除用户
+     * @param uid
+     */
+    void deleteUser(String uid);
+
+    /**
+     * 查找所有用户
+     * @return
+     */
+    List<UserInfo> findAllUser();
+
+    /**
+     * 根据id查找用户
+     * @param uid
+     * @return
+     */
+    UserInfo findUserById(String uid);
 }

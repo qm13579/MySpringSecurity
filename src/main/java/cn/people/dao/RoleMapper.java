@@ -1,10 +1,7 @@
 package cn.people.dao;
 
 import cn.people.domain.Role;
-import org.apache.ibatis.annotations.Many;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -23,7 +20,16 @@ public interface RoleMapper {
     @Results({
             @Result(property = "roleName",column = "role_name"),
             @Result(property = "id",column = "id"),
-            @Result(property = "permissions",column = "id",javaType = java.util.List.class,many = @Many(select = "cn.people.dao.PermissionMapper.findPermissionByRoleId"))
+            @Result(property = "permissions",column = "id",javaType = java.util.List.class,many = @Many(select = "cn.people.dao.PermissionMapper.findPermissionByRoleId")),
+            @Result(property = "menums",column = "id" ,javaType = java.util.List.class, many = @Many(select = ""))
     })
     List<Role> findRoleByUserId(String uid);
+
+    /**
+     * 创建user与role关联
+     * @param uid
+     * @param rid
+     */
+    @Insert("insert into user_m_role(user_id,role_id) values (#{uid},#{rid})")
+    void createUserMRole(@Param("uid") String uid, @Param("rid") String rid);
 }

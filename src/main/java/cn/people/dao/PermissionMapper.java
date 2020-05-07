@@ -10,6 +10,7 @@ import java.util.List;
 /**
  *
  * 权限mapper
+ * @author apple
  */
 public interface PermissionMapper {
 

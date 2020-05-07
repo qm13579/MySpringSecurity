@@ -61,11 +61,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .formLogin()
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .successHandler(new LoginSuccessHandler())  //登陆成功策略
-                .failureHandler(new LoginFailureHandler()) //登录失败策略
+                .successHandler(new LoginSuccessHandler())
+                .failureHandler(new LoginFailureHandler())
                 .and()
             .exceptionHandling()
-                .accessDeniedHandler(new AuthLimitHandler());//权限不足策略
+                .accessDeniedHandler(new AuthLimitHandler());
 //                .authenticationEntryPoint()登陆过期策略
 
     }
