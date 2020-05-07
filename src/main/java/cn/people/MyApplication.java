@@ -22,7 +22,7 @@ public class MyApplication {
         SpringApplication.run(MyApplication.class,args);
     }
 
-
+    
     @Bean
     public IdWorker idWorker(){
         return new IdWorker();

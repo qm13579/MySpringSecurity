@@ -20,6 +20,7 @@ public class Role implements Serializable {
     private String roleName;
     private List<Permission> permissions;
 
+
     @Override
     public String toString() {
         return "Role{" +

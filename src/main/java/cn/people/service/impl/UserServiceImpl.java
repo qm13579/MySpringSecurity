@@ -1,11 +1,14 @@
 package cn.people.service.impl;
 
 import cn.people.dao.UserMapper;
+import cn.people.domain.Role;
 import cn.people.domain.UserInfo;
 import cn.people.domain.vo.UserVO;
 import cn.people.service.UserService;
 import cn.people.utils.common.IdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +18,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author : FENGZHI
@@ -35,14 +41,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         UserInfo user = userMapper.findUserByUsername(s);
-        System.out.println(user);
         if (user == null){
             throw new SecurityException("用户不存在");
         }
-        System.out.println(user.getAuthorities());
-        User userDetail = new User(user.getUsername(), user.getPassword(), user.getAuthorities());
-        return userDetail;
+        return user;
     }
+
 
     @Override
     public void save(@Valid UserVO userVO) {

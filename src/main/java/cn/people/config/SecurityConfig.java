@@ -33,11 +33,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //定义密码验证及默认用户
-        auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder())
+        auth.inMemoryAuthentication()
                 .withUser("test")
                 .password(new BCryptPasswordEncoder().encode("test"))
                 .roles("USER");
-        auth.userDetailsService(userService);
+        auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
         auth.eraseCredentials(false);
     }
 
