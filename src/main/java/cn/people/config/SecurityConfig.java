@@ -56,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/user/create").permitAll()
+                .antMatchers("/swagger**/**","/webjars/**","/swagger**/**","/v2/**","/favicon**","/configuration/**","/images/**").permitAll()
                 .anyRequest().access("@rbacService.hasPermission(request,authentication)")
                 .and()
             .formLogin()
@@ -69,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .authenticationEntryPoint()登陆过期策略
 
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder(){

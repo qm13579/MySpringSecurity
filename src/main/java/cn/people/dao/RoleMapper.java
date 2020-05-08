@@ -21,7 +21,7 @@ public interface RoleMapper {
             @Result(property = "roleName",column = "role_name"),
             @Result(property = "id",column = "id"),
             @Result(property = "permissions",column = "id",javaType = java.util.List.class,many = @Many(select = "cn.people.dao.PermissionMapper.findPermissionByRoleId")),
-            @Result(property = "menums",column = "id" ,javaType = java.util.List.class, many = @Many(select = ""))
+            @Result(property = "menums",column = "id" ,javaType = java.util.List.class, many = @Many(select = "cn.people.dao.MenumMapper.findMenumByRoleId"))
     })
     List<Role> findRoleByUserId(String uid);
 

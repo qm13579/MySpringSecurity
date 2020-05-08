@@ -23,12 +23,14 @@ public class Menum implements Serializable {
 
     @NotBlank
     private String menumName;
+    private String level;
 
     @Override
     public String toString() {
         return "Menum{" +
                 "id='" + id + '\'' +
                 ", menumName='" + menumName + '\'' +
+                ", level='" + level + '\'' +
                 '}';
     }
 }

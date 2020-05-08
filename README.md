@@ -10,6 +10,8 @@
          anyRequest().access  
          二者同时出现时，认证未执行时，注意access使用后不使用authenticated,如有使用导致多次验证。
          通过AntPathMatcher判断url，以用来访问
-    
+# 实现JWT（JSON WEB TOKEN）
+    jwt增加了用户脚手架的扩展性问题，把数据放在客户端，后端验证jwt。
+    token = head(加密信息).载体(用户信息).签名()
     
     

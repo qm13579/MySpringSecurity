@@ -74,4 +74,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
     }
+
+    @Override
+    public void deleteUser(String uid) {
+
+    }
+
+    @Override
+    public List<UserInfo> findAllUser() {
+        return null;
+    }
+
+    @Override
+    public UserInfo findUserById(String uid) {
+        return null;
+    }
 }

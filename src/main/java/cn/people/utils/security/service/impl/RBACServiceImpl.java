@@ -1,5 +1,6 @@
 package cn.people.utils.security.service.impl;
 
+import cn.people.domain.Menum;
 import cn.people.domain.Permission;
 import cn.people.domain.Role;
 import cn.people.domain.UserInfo;
@@ -21,22 +22,37 @@ public class RBACServiceImpl implements RBACService {
 
     @Override
     public boolean hasPermission(HttpServletRequest request, Authentication authentication){
+        log.info("正在验证:"+request.getRequestURL());
+        boolean methodAssert = false;
+        boolean urlAssert = false;
+        String method = request.getMethod().toString();
         Object principal = authentication.getPrincipal();
         boolean permission = false;
         if (principal instanceof UserDetails){
             UserInfo user = ((UserInfo) principal);
+            log.info(user.toString());
             HashSet<String> urls = new HashSet<>();
+            //添加url到set集合（去重）
             for (Role role:user.getRoles()) {
                 for (Permission per :role.getPermissions()){
+                    if (antPathMatcher.match(per.getMethod(),method)){
+                        methodAssert = true;
+                    }
                     urls.add(per.getPermissionName());
                 }
             }
+            //匹配url
             for (String url :urls){
+
                 if (antPathMatcher.match(url,request.getRequestURI())){
-                    permission = true;
+                    urlAssert = true;
                     break;
                 }
             }
+        }
+        //同为true才具有权限
+        if (methodAssert && urlAssert){
+            permission = true;
         }
         return permission;
     }
