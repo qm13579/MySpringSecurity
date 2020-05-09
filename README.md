@@ -19,5 +19,11 @@
     1.修改security配置类session为无状态
     2.定义JWT工具类，定义常量、定义Base64URL算法和解码方法、定义HmacSHA256加密算法和签名、验证token方法
     3.定义JWT内容（3个字段）
-    
+    4.修改登录成功处理器，在其实现回写token
+    5.修改Role实体类实现GrantedAuthority（主要是用于反序列化）
+      修改User实体类（注意字段名和父类相一致，主要是用于反序列化）
+    6.编写token验证器（本质是一个过滤器）在信息验证通过后放到securityContextHolder中。替换session验证token判断登录。
+#序列化
+fastjaon
+
     

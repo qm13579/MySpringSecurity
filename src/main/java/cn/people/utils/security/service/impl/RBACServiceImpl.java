@@ -33,7 +33,7 @@ public class RBACServiceImpl implements RBACService {
             log.info(user.toString());
             HashSet<String> urls = new HashSet<>();
             //添加url到set集合（去重）
-            for (Role role:user.getRoles()) {
+            for (Role role:user.getAuthorities() ) {
                 for (Permission per :role.getPermissions()){
                     if (antPathMatcher.match(per.getMethod(),method)){
                         methodAssert = true;

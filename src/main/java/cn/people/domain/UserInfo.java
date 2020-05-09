@@ -29,16 +29,34 @@ public class UserInfo implements UserDetails {
     private String password;
     private Boolean status;
 
-    private List<Role> roles;
+    private List<Role> authorities ;
+
+    /* 指示是否未过期的用户的凭据(密码),过期的凭据防止认证 默认true 默认表示未过期 */
+    private boolean credentialsNonExpired = true;
+
+    //账户是否未过期,过期无法验证 默认true表示未过期
+    private boolean accountNonExpired = true;
+
+    //用户是未被锁定,锁定的用户无法进行身份验证 默认true表示未锁定
+    private boolean accountNonLocked = true;
+
+    //是否可用 ,禁用的用户不能身份验证 默认true表示可用
+    private boolean enabled = true;
+
+
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        List<SimpleGrantedAuthority> list = new ArrayList<>();
+//        for (Role role :authority ) {
+//            list.add(new SimpleGrantedAuthority("ROLE_"+role.getRoleName()));
+//        }
+//
+//        return list;
+//    }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> list = new ArrayList<>();
-        for (Role role :roles) {
-            list.add(new SimpleGrantedAuthority("ROLE_"+role.getRoleName()));
-        }
-
-        return list;
+    public List<Role> getAuthorities(){
+        return authorities;
     }
 
     @Override
@@ -53,22 +71,22 @@ public class UserInfo implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return accountNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return accountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return credentialsNonExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 
     @Override
@@ -78,7 +96,7 @@ public class UserInfo implements UserDetails {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", status=" + status +
-                ", roles=" + roles +
+                ", roles=" + authorities  +
                 '}';
     }
 }

@@ -1,4 +1,4 @@
-package cn.people.utils.security;
+package cn.people.utils.jwt;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -67,5 +67,37 @@ public class JWTUtils {
         }
         return sb.toString().toUpperCase();
     }
+
+    /**
+     * 获取签名
+     * @param payload
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeyException
+     * @throws UnsupportedEncodingException
+     */
+    public static String getSignature(String payload) throws NoSuchAlgorithmException, InvalidKeyException, UnsupportedEncodingException {
+        return HMACSHA256(encode(DEFAULT_HEADER) + "."+ encode(payload),SECRET);
+    }
+
+    public static String testJwt(String jwt) throws NoSuchAlgorithmException, InvalidKeyException, UnsupportedEncodingException {
+        String[] jwts = jwt.split("\\.");
+
+        /**
+         * 验证签名
+         */
+        if (!HMACSHA256(jwts[0]+"."+jwts[1],SECRET).equals(jwts[2])){
+            return null;
+        }
+        /**
+         * 验证头部信息
+         */
+        if (!jwts[0].equals(encode(DEFAULT_HEADER))){
+            return null;
+        }
+
+        return decode(jwts[1]);
+    }
+
 
 }

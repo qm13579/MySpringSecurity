@@ -18,7 +18,7 @@ public interface UserMapper {
     @Select("select * from user_info where username = #{username}")
     @Results({
             @Result(property = "id",column = "id"),
-            @Result(property = "roles",column = "id",javaType = java.util.List.class,many = @Many(select = "cn.people.dao.RoleMapper.findRoleByUserId") )
+            @Result(property = "authorities",column = "id",javaType = java.util.List.class,many = @Many(select = "cn.people.dao.RoleMapper.findRoleByUserId") )
     })
     UserInfo findUserByUsername(String username);
 

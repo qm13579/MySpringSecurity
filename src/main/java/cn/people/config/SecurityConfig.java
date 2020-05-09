@@ -2,9 +2,10 @@ package cn.people.config;
 
 import cn.people.service.UserService;
 import cn.people.service.impl.UserServiceImpl;
+import cn.people.utils.jwt.JWTAuthenticationFilter;
+import cn.people.utils.jwt.LoginSuccessHandler;
 import cn.people.utils.security.handle.AuthLimitHandler;
 import cn.people.utils.security.handle.LoginFailureHandler;
-import cn.people.utils.security.handle.LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * @author : FENGZHI
@@ -73,6 +75,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .authenticationEntryPoint()登陆过期策略
         // rest 无状态 无session
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        //配置token验证过滤器
+        http.addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     /**
