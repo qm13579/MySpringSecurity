@@ -11,6 +11,5 @@ spring:
     port: 6379
     password: password
     timeout: 1000
-
 server:
   port: 8080

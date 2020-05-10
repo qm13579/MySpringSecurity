@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * create at:  2020/5/5  下午9:14
  * @description:
  */
-@RestController
+@Controller
 @RequestMapping("/user")
 public class UserController {
 
@@ -41,7 +42,8 @@ public class UserController {
     }
     @ApiOperation(value = "查找所有用户")
     @RequestMapping(value = "find",method = RequestMethod.GET)
-    public Result findUser(){
-        return Result.SUCCESS();
+    public String findUser(){
+        return "index";
     }
+
 }
