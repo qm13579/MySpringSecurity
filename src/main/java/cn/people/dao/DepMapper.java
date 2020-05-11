@@ -1,5 +1,6 @@
 package cn.people.dao;
 
+import cn.people.dao.provider.DepProvider;
 import cn.people.domain.Dep;
 import cn.people.domain.vo.DepVO;
 import org.apache.ibatis.annotations.*;
@@ -32,9 +33,12 @@ public interface DepMapper {
     @Update("update set department dep_name=#{depName} where id = #{id}")
     void updateDepName(Dep dep);
 
-
-    @Update("update set department dep_name=#{depName} where id = #{id}")
-    void updateDep(Dep dep);
+    /**
+     * 更新部门信息
+     * @param dep
+     */
+    @UpdateProvider(type = DepProvider.class,method = "updateDep")
+    void updateDep(DepVO dep);
 
     /**
      * 增加部门
@@ -52,4 +56,13 @@ public interface DepMapper {
             @Result(property = "userInfos",column = "id",javaType = java.util.List.class,many = @Many(select = "cn.people.dao.UserMapper.findUserById"))
     })
     Dep findDepById(String id);
+
+    /**
+     * 查找部门人数
+     * @return
+     */
+    @Select("select count(*) from department")
+    long findUser();
+
+
 }
