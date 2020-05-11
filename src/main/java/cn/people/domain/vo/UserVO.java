@@ -1,5 +1,6 @@
 package cn.people.domain.vo;
 
+import cn.people.domain.Dep;
 import cn.people.utils.common.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,6 +35,8 @@ public class UserVO extends BaseEntity implements Serializable {
     private String email;
     @NotBlank(groups = {Create.class})
     private String mobile;
+
+    private DepVO dep;
 
     @Override
     public String toString() {

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,10 +41,13 @@ public class UserController {
         userService.update(userVO);
         return Result.SUCCESS();
     }
+
     @ApiOperation(value = "查找所有用户")
     @RequestMapping(value = "find",method = RequestMethod.GET)
-    public String findUser(){
+    public String findUser(Model model){
+        model.addAttribute("result",Result.SUCCESS());
         return "index";
+
     }
 
 }

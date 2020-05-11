@@ -28,7 +28,7 @@ public class UserInfo implements UserDetails {
     @NotBlank
     private String password;
     private Boolean status;
-
+    private Dep dep;
     private List<Role> authorities ;
 
     /* 指示是否未过期的用户的凭据(密码),过期的凭据防止认证 默认true 默认表示未过期 */
@@ -42,17 +42,6 @@ public class UserInfo implements UserDetails {
 
     //是否可用 ,禁用的用户不能身份验证 默认true表示可用
     private boolean enabled = true;
-
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        List<SimpleGrantedAuthority> list = new ArrayList<>();
-//        for (Role role :authority ) {
-//            list.add(new SimpleGrantedAuthority("ROLE_"+role.getRoleName()));
-//        }
-//
-//        return list;
-//    }
 
     @Override
     public List<Role> getAuthorities(){

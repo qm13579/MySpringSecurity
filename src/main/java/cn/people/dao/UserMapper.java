@@ -4,6 +4,8 @@ import cn.people.domain.UserInfo;
 import cn.people.domain.vo.UserVO;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 /**
  * @author : FENGZHI
  * create at:  2020/5/5  下午4:28
@@ -28,4 +30,7 @@ public interface UserMapper {
      */
     @Insert("insert into user_info(id,username,password,email,mobile) values(#{id},#{username},#{password},#{email},#{mobile})")
     void save(UserVO userVO);
+
+    @Select("select * from user_info where id=#{did} ")
+    List<UserInfo> findUserById(String did);
 }
