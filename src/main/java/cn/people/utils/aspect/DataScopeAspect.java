@@ -97,13 +97,11 @@ public class DataScopeAspect {
             else if (DATA_SCOPE_SELF.equals(scope)){
                 sqlString.append("");
             }
-
         }
 
         if (sqlString.toString() != null){
              Object arg = joinPoint.getArgs()[0];
         }
     }
-
 }
 
