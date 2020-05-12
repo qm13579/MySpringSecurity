@@ -19,11 +19,16 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Role implements GrantedAuthority {
-    private String id;
-    private String authority;
-    private List<Permission> permissions;
-    private List<Menum> menums;
 
+    private String id;
+
+    private String authority;
+
+    private List<Permission> permissions;
+
+    private List<Menum> menums;
+    /**数据范围 1所有数据，2：自定义数据 3：本部门数据权限 4：本部门以下数据权限*/
+    private String dataScope;
     @Override
     public String toString() {
         return "Role{" +
