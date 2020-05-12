@@ -4,6 +4,7 @@ import cn.people.dao.DepMapper;
 import cn.people.domain.Dep;
 import cn.people.domain.vo.DepVO;
 import cn.people.service.DepService;
+import cn.people.utils.aspect.annotation.DataScope;
 import cn.people.utils.common.DepUtils;
 import cn.people.utils.common.IdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class DepServiceImpl implements DepService {
 
 
     @Override
+    @DataScope(deptAlias = "d")
     public List<DepVO> findALL() {
 
         List<DepVO> list = depMapper.findALL();
@@ -50,7 +52,7 @@ public class DepServiceImpl implements DepService {
 
 
     @Override
-    public void updateDep(Dep dep) {
+    public void updateDep(DepVO dep) {
         Dep mapperDep = depMapper.findDepById(dep.getId());
         if (Objects.equals(mapperDep.getLevel(),dep.getLevel())){
             depMapper.updateDepName(dep);

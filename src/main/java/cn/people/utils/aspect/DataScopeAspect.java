@@ -2,18 +2,17 @@ package cn.people.utils.aspect;
 
 import cn.people.domain.Role;
 import cn.people.domain.UserInfo;
+import cn.people.utils.aspect.annotation.DataScope;
+import cn.people.utils.common.BaseEntity;
 import cn.people.utils.common.SecurityUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
-import java.util.Objects;
 
 /**
  * 数据过滤
@@ -46,7 +45,7 @@ public class DataScopeAspect {
      */
     public static final String DATA_SCOPE = "dataScope";
 
-    @Pointcut("@annotation(cn.people.utils.aspect.DataScope) )")
+    @Pointcut("@annotation(cn.people.utils.aspect.annotation.DataScope) )")
     public void dataScopePoint(){};
 
     /**
@@ -100,7 +99,10 @@ public class DataScopeAspect {
         }
 
         if (sqlString.toString() != null){
-             Object arg = joinPoint.getArgs()[0];
+            BaseEntity baseEntity = (BaseEntity)joinPoint.getArgs()[0];
+            Object arg = joinPoint.getArgs()[0];
+            baseEntity.getParams().put(DATA_SCOPE,"AND ("+sqlString.substring(4)+")");
+
         }
     }
 }

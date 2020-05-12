@@ -31,7 +31,7 @@ public interface DepMapper {
      * @param dep
      */
     @Update("update set department dep_name=#{depName} where id = #{id}")
-    void updateDepName(Dep dep);
+    void updateDepName(DepVO dep);
 
     /**
      * 更新部门信息

@@ -1,5 +1,6 @@
 package cn.people.domain;
 
+import cn.people.utils.common.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInfo implements UserDetails {
+public class UserInfo extends BaseEntity implements UserDetails {
 
     private String id;
     @NotBlank

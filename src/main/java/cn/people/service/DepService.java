@@ -20,7 +20,7 @@ public interface DepService {
     /**
      * 更新部门
      */
-    void updateDep(Dep dep);
+    void updateDep(DepVO dep);
 
     /**
      * 增加部门
