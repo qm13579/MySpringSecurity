@@ -13,7 +13,7 @@ public interface DepMapper {
      * 查找全部
      * @return
      */
-    @Select("select * from department")
+    @SelectProvider(type = DepProvider.class,method = "findALL")
     @Results({
             @Result(property = "depName",column = "dep_name")
     })

@@ -1,5 +1,6 @@
 package cn.people.domain;
 
+import cn.people.utils.common.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Dep {
+public class Dep  extends BaseEntity {
 
     private String id;
     private String depName;

@@ -75,6 +75,13 @@ public class DataScopeAspect {
 
     }
 
+    /**
+     * 数据级别控制
+     * @param joinPoint
+     * @param user
+     * @param depAlias
+     * @param userAlias
+     */
     public static void dataScopeFilter(JoinPoint joinPoint, UserInfo user,String depAlias,String userAlias){
         StringBuffer sqlString = new StringBuffer();
         for (Role role :user.getAuthorities()) {
@@ -85,16 +92,22 @@ public class DataScopeAspect {
                 break;
             }
             else if (DATA_SCOPE_CUSTOM.equals(scope)){
-                sqlString.append("");
+                sqlString.append(String.format(
+                        " OR %s.id IN (SELECT dept_id FROM) role_m_dept WHERE role_id=%s" ,
+                        depAlias,
+                        role.getId() ));
             }
             else if (DATA_SCOPE_DEPT.equals(scope)){
-                sqlString.append("");
+                sqlString.append(String.format("OR %s.id = %s",depAlias,user.getDep()));
             }
             else if (DATA_SCOPE_DEPT_AND_CHILD.equals(scope)){
-                sqlString.append("");
+                sqlString.append(String.format(
+                        "OR %s.id IN (SELECT id FROM department WHERE id = %s OR find_in_set(%s,ancestors) ) ",
+                        user.getDep(),
+                        user.getDep()));
             }
             else if (DATA_SCOPE_SELF.equals(scope)){
-                sqlString.append("");
+                sqlString.append(String.format("%s.id = %s",userAlias,user.getId()));
             }
         }
 
@@ -102,8 +115,16 @@ public class DataScopeAspect {
             BaseEntity baseEntity = (BaseEntity)joinPoint.getArgs()[0];
             Object arg = joinPoint.getArgs()[0];
             baseEntity.getParams().put(DATA_SCOPE,"AND ("+sqlString.substring(4)+")");
-
         }
     }
+
+    /**
+     * 通过注解进行插拔
+     *
+     * 其他人员验证部门
+     * 关于数据字段的控制
+     * 采用动态代理 sql 写入语句（）
+     *
++     */
 }
 

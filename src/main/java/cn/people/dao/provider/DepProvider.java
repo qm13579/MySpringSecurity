@@ -1,5 +1,6 @@
 package cn.people.dao.provider;
 
+import cn.people.domain.UserInfo;
 import cn.people.domain.vo.DepVO;
 
 /**
@@ -19,5 +20,12 @@ public class DepProvider {
         }
         return sql.toString();
 
+    }
+
+    public StringBuffer findALL(UserInfo user){
+        StringBuffer sql = null;
+        sql = new StringBuffer("select * from department ");
+
+        return sql;
     }
 }
