@@ -10,8 +10,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface DataScope {
-
     public String deptAlias() default "";
-
     public String userAlias() default "";
+
 }
