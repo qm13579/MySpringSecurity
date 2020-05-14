@@ -1,7 +1,13 @@
 package cn.people.utils.quartz.config;
 
+import cn.people.utils.quartz.QuartzManage;
+import cn.people.utils.quartz.domain.QuartzJob;
+import cn.people.dao.QuartzMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+
+import java.util.List;
 
 /**
  * @author : FENGZHI
@@ -11,8 +17,16 @@ import org.springframework.boot.ApplicationRunner;
  */
 public class JobRunner implements ApplicationRunner {
 
+    @Autowired
+    private QuartzMapper quartzMapper;
+    @Autowired
+    private QuartzManage quartzManage;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
+
+        List<QuartzJob> quartzJobs = quartzMapper.findByIdIsFalse();
+        quartzJobs.forEach(quartzManage::addJob);
 
     }
 }
