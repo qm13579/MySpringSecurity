@@ -72,7 +72,6 @@ public class DataScopeAspect {
                 dataScopeFilter(point,user,scope.deptAlias(),scope.userAlias());
             }
         }
-
     }
 
     /**
@@ -117,14 +116,5 @@ public class DataScopeAspect {
             baseEntity.getParams().put(DATA_SCOPE,"AND ("+sqlString.substring(4)+")");
         }
     }
-
-    /**
-     * 通过注解进行插拔
-     *
-     * 其他人员验证部门
-     * 关于数据字段的控制
-     * 采用动态代理 sql 写入语句（）
-     *
-+     */
 }
 

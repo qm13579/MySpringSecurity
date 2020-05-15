@@ -29,6 +29,11 @@ public class Role implements GrantedAuthority {
     private List<Menum> menums;
     /**数据范围 1所有数据，2：自定义数据 3：本部门数据权限 4：本部门以下数据权限*/
     private String dataScope;
+
+    private List<Field> fields;
+    /** 角色优先级 1为最大 */
+    private int level;
+
     @Override
     public String toString() {
         return "Role{" +
@@ -36,6 +41,9 @@ public class Role implements GrantedAuthority {
                 ", authority='" + authority + '\'' +
                 ", permissions=" + permissions +
                 ", menums=" + menums +
+                ", dataScope='" + dataScope + '\'' +
+                ", fields=" + fields +
+                ", level=" + level +
                 '}';
     }
 

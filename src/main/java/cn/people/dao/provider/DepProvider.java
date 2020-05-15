@@ -2,6 +2,7 @@ package cn.people.dao.provider;
 
 import cn.people.domain.UserInfo;
 import cn.people.domain.vo.DepVO;
+import cn.people.utils.aspect.FieldScopeAspect;
 
 /**
  * @author : FENGZHI
@@ -22,10 +23,18 @@ public class DepProvider {
 
     }
 
-    public StringBuffer findALL(UserInfo user){
-        StringBuffer sql = null;
-        sql = new StringBuffer("select * from department ");
+    public String findALL(UserInfo user){
 
-        return sql;
+        Object params = user.getParams().get(FieldScopeAspect.FIELD_SCOPE);
+        StringBuffer sql = null;
+
+        if (params == null){
+             sql = new StringBuffer("select * from department ");
+        }else {
+            String alias = (String) user.getParams().get(FieldScopeAspect.ALIAS);
+            sql = new StringBuffer("select");
+            sql.append( ((String)params) + String.format("from department %s",alias) );
+        }
+        return sql.toString();
     }
 }

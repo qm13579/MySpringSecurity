@@ -2,7 +2,7 @@ package cn.people.utils.quartz.config;
 
 import cn.people.utils.quartz.QuartzManage;
 import cn.people.utils.quartz.domain.QuartzJob;
-import cn.people.dao.QuartzMapper;
+import cn.people.utils.quartz.mapper.QuartzMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
