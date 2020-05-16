@@ -1,5 +1,6 @@
 package cn.people.domain;
 
+import cn.people.utils.aspect.annotation.Excel;
 import cn.people.utils.common.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +25,7 @@ import java.util.List;
 public class UserInfo extends BaseEntity implements UserDetails {
 
     private String id;
+    @Excel(name = "用户名")
     @NotBlank
     private String username;
     @NotBlank

@@ -47,7 +47,12 @@ public class UserController {
     public String findUser(Model model){
         model.addAttribute("result",Result.SUCCESS());
         return "index";
-
+    }
+    @ApiOperation(value = "下载用户文件")
+    @RequestMapping(value = "download",method = RequestMethod.GET)
+    public Result downloadUserFile(){
+        userService.downloadUserFile();
+        return Result.SUCCESS();
     }
 
 }

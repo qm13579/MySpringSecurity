@@ -43,4 +43,9 @@ public interface UserService {
      * @return
      */
     UserInfo findUserById(String uid);
+
+    /**
+     * 下载用户文件
+     */
+    void downloadUserFile();
 }

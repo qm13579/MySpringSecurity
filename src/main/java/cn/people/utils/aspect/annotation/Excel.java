@@ -13,12 +13,12 @@ import java.lang.annotation.Target;
 public @interface Excel {
 
     /**导出的excel中的名字 */
-    public String name() default "";
+    String name() default "";
 
     /**日期格式 如yyyy-MM-dd*/
-    public String dateFormat() default "";
+    String dateFormat() default "";
 
     /**读取内容转表达式(如：0=男，1=女，2=未知)*/
-    public String readConverterExp() default "";
+    String readConverterExp() default "";
 
 }

@@ -22,7 +22,7 @@ public class QuartzManage {
     @Autowired
     private Scheduler scheduler;
 
-    public void addJob(QuartzJob quartzJob) throws SchedulerException {
+    public void addJob(QuartzJob quartzJob) {
         //构建job信息
         JobDetail build = JobBuilder.newJob(ExecutionJob.class)
                 .withIdentity(JOB_NAME + quartzJob.getId())
@@ -36,7 +36,11 @@ public class QuartzManage {
         //创建数据容器
         cronTrigger.getJobDataMap().put(QuartzJob.JOB_KEY,quartzJob);
         //加入scheduler调度
-        scheduler.scheduleJob(build,cronTrigger);
+        try {
+            scheduler.scheduleJob(build,cronTrigger);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
     }
 
 }
