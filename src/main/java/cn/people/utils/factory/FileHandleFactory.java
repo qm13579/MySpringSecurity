@@ -1,6 +1,7 @@
 package cn.people.utils.factory;
 
 import cn.people.utils.common.ExcelUtils;
+import cn.people.utils.common.PDFUtils;
 
 /**
  * 文件工厂类
@@ -12,5 +13,8 @@ public class FileHandleFactory {
 
     public static ExcelUtils getExcelHandle(){
         return new ExcelUtils();
+    }
+    public static PDFUtils getPdfHandle(){
+        return new PDFUtils();
     }
 }

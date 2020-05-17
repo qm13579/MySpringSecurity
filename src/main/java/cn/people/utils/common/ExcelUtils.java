@@ -1,5 +1,7 @@
 package cn.people.utils.common;
 
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
 import cn.people.utils.aspect.annotation.Excel;
 import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -10,7 +12,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -138,6 +142,15 @@ public class ExcelUtils {
         setHeard(workbook,response);
     }
     /***
-     * 设置表格式
+     * 通过hutool工具类实现表单下载
      */
+    public void getExcel(HttpServletResponse response,List<T> T,String tableName) throws IOException {
+        ExcelWriter writer = ExcelUtil.getWriter(true);
+        writer.write(T);
+        response.reset();
+        response.setContentType("application/octet-stream;charset=utf-8");
+        response.setHeader("content-Disposition","attachment;filename="+ URLEncoder.encode(tableName,"UTF-8"));
+        writer.flush(response.getOutputStream());
+        writer.close();
+    }
 }
