@@ -1,6 +1,7 @@
 package cn.people.utils.quartz;
 
 import cn.people.utils.common.SpringContextHolder;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.ReflectionUtils;
 
 
@@ -16,7 +17,8 @@ public class QuartzRunner implements Callable {
     public QuartzRunner(String beanName, String methodName, String params) throws NoSuchMethodException {
         this.target = SpringContextHolder.getBean(beanName);
         this.params = params;
-        if (params != null){
+
+        if (StringUtils.isNotBlank(params)){
             this.method = target.getClass().getDeclaredMethod(methodName,String.class);
         }else {
             this.method = target.getClass().getDeclaredMethod(methodName);
@@ -26,7 +28,7 @@ public class QuartzRunner implements Callable {
     @Override
     public Object call() throws Exception {
         ReflectionUtils.makeAccessible(method);
-        if (params != null){
+        if (StringUtils.isNotBlank(params)){
             method.invoke(target,params);
         }else {
             method.invoke(target);

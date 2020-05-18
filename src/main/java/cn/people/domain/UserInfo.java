@@ -24,10 +24,13 @@ import java.util.List;
 @AllArgsConstructor
 public class UserInfo extends BaseEntity implements UserDetails {
 
+    @Excel(name = "ID card")
     private String id;
+
     @Excel(name = "用户名")
     @NotBlank
     private String username;
+    @Excel(name = "password")
     @NotBlank
     private String password;
     private Boolean status;

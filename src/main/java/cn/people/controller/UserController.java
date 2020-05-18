@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @author : FENGZHI
  * create at:  2020/5/5  下午9:14
@@ -50,8 +52,8 @@ public class UserController {
     }
     @ApiOperation(value = "下载用户文件")
     @RequestMapping(value = "download",method = RequestMethod.GET)
-    public Result downloadUserFile(){
-        userService.downloadUserFile();
+    public Result downloadUserFile(HttpServletResponse response){
+        userService.downloadUserFile(response);
         return Result.SUCCESS();
     }
 

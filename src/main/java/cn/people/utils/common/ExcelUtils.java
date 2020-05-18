@@ -2,6 +2,7 @@ package cn.people.utils.common;
 
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
+import cn.people.domain.UserInfo;
 import cn.people.utils.aspect.annotation.Excel;
 import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -47,7 +48,7 @@ public class ExcelUtils {
      * @param tableName
      * @return
      */
-    private  Workbook createWork(List<T> T,String tableName) throws IllegalAccessException {
+    private  Workbook createWork(List<T> T, String tableName) throws IllegalAccessException {
 
         XSSFWorkbook workbook = new XSSFWorkbook();
         creatSheet(workbook, tableName,T);
@@ -137,7 +138,7 @@ public class ExcelUtils {
      * @param tableName
      * @param objs
      */
-    public void export(String tableName, List<T> objs,HttpServletResponse response) throws IllegalAccessException, IOException {
+    public void export(String tableName, List<T> objs, HttpServletResponse response) throws IllegalAccessException, IOException {
         Workbook workbook = createWork(objs, tableName);
         setHeard(workbook,response);
     }

@@ -40,4 +40,5 @@
     2.创建excel工具类进行实体类的
 #序列化
 fastjaon
-    
+#字符判断
+StringUtils.isNotBlank

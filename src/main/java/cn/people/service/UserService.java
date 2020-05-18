@@ -3,6 +3,7 @@ package cn.people.service;
 import cn.people.domain.UserInfo;
 import cn.people.domain.vo.UserVO;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -47,5 +48,5 @@ public interface UserService {
     /**
      * 下载用户文件
      */
-    void downloadUserFile();
+    void downloadUserFile(HttpServletResponse response);
 }

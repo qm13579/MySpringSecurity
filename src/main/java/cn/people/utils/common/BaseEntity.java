@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.poi.ss.formula.functions.T;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -15,7 +16,7 @@ import java.util.Map;
  * @description:
  */
 @Data
-public class BaseEntity implements Serializable {
+public class BaseEntity  implements Serializable {
 
     public static final long serialVersionUID = 1L;
 

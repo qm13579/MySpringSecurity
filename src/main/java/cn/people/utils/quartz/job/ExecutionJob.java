@@ -25,7 +25,6 @@ public class ExecutionJob extends QuartzJobBean {
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 
         QuartzJob quartzJob = (QuartzJob) context.getMergedJobDataMap().get(QuartzJob.JOB_KEY);
-
         try{
             QuartzRunner task = new QuartzRunner(quartzJob.getJobName(), quartzJob.getMethodName(), quartzJob.getParams());
             Future future = EXECUTOR.submit(task);

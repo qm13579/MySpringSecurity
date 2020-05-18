@@ -3,10 +3,14 @@ package cn.people.utils.quartz;
 import cn.people.utils.quartz.domain.QuartzJob;
 import cn.people.utils.quartz.job.ExecutionJob;
 import org.quartz.*;
+import org.quartz.impl.triggers.CronTriggerImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
+
 import static org.quartz.TriggerBuilder.newTrigger;
 /**
  * @author : FENGZHI
@@ -35,6 +39,7 @@ public class QuartzManage {
                 .build();
         //创建数据容器
         cronTrigger.getJobDataMap().put(QuartzJob.JOB_KEY,quartzJob);
+        ((CronTriggerImpl)cronTrigger).setStartTime(new Date());
         //加入scheduler调度
         try {
             scheduler.scheduleJob(build,cronTrigger);

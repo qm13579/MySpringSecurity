@@ -5,7 +5,9 @@ import cn.people.dao.UserMapper;
 import cn.people.domain.UserInfo;
 import cn.people.domain.vo.UserVO;
 import cn.people.service.UserService;
+import cn.people.utils.common.ExcelUtils;
 import cn.people.utils.common.IdWorker;
+import cn.people.utils.factory.FileHandleFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -84,7 +87,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void downloadUserFile() {
-
+    public void downloadUserFile(HttpServletResponse response) {
+        List<UserInfo> list = userMapper.findUser();
+        ExcelUtils excelHandle = FileHandleFactory.getExcelHandle();
+        excelHandle.export("user",list,response);
     }
 }

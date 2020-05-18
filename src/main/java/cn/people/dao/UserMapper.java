@@ -33,4 +33,7 @@ public interface UserMapper {
 
     @Select("select * from user_info where id=#{did} ")
     List<UserInfo> findUserById(String did);
+
+    @Select("select * from user_info")
+    List<UserInfo> findUser();
 }
