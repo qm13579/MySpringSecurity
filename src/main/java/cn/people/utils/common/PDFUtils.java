@@ -3,7 +3,6 @@ import cn.people.utils.aspect.annotation.Excel;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
-import org.apache.poi.ss.formula.functions.T;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -20,7 +19,7 @@ import java.util.List;
  * create at:  2020/5/13  下午9:20
  * @description:
  */
-public class PDFUtils {
+public class PDFUtils<T> {
     /**
      * 设置请求头
      * @param response
@@ -85,13 +84,14 @@ public class PDFUtils {
         for (Object object :T) {
             Field[] fields = object.getClass().getDeclaredFields();
             for (Field field :fields) {
+                field.setAccessible(true);
                 Excel excel = field.getAnnotation(Excel.class);
                 if (excel != null){
                     table.addCell(createCell(field.get(object).toString()));
                 }
             }
         }
-        return null;
+        return table;
     }
 
     /**

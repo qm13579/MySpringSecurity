@@ -2,9 +2,7 @@ package cn.people.utils.common;
 
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
-import cn.people.domain.UserInfo;
 import cn.people.utils.aspect.annotation.Excel;
-import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -13,7 +11,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -25,7 +22,7 @@ import java.util.List;
  * create at:  2020/5/13  下午9:20
  * @description:
  */
-public class ExcelUtils {
+public class ExcelUtils<T> {
 
     /**
      * 设置下载请求头xlsx
@@ -76,7 +73,7 @@ public class ExcelUtils {
         //设置表格中的列名
         XSSFRow rowColumn = sheet.createRow(0);
         setColumnName(getColumnField(T),rowColumn);
-
+        System.out.println("单元格设置");
         int rowNum = 1;
         for (Object object : T) {
             XSSFRow row = sheet.createRow(rowNum);
@@ -109,7 +106,10 @@ public class ExcelUtils {
             Field[] fields = object.getClass().getDeclaredFields();
             for (Field field :fields) {
                 field.setAccessible(true);
-                row.createCell(colNum).setCellValue(field.get(object).toString());
+                Excel annotation = field.getAnnotation(Excel.class);
+                if (annotation != null){
+                    row.createCell(colNum).setCellValue(field.get(object).toString());
+                }
                 colNum += 1;
             }
         }
@@ -122,12 +122,15 @@ public class ExcelUtils {
      */
     private List<String> getColumnField(List<T> T){
         List<String> list = new ArrayList<>();
-        Field[] fields = T.getClass().getDeclaredFields();
-
-        for (Field field :fields) {
-            Excel excel = field.getAnnotation(Excel.class);
-            if (excel != null){
-                list.add(excel.name());
+        for (Object object :T) {
+            Field[] fields = object.getClass().getDeclaredFields();
+            for (Field field :fields) {
+                field.setAccessible(true);
+                Excel excel = field.getAnnotation(Excel.class);
+                if (excel != null){
+                    System.out.println(excel.name());
+                    list.add(excel.name());
+                }
             }
         }
         return list;
@@ -139,6 +142,7 @@ public class ExcelUtils {
      * @param objs
      */
     public void export(String tableName, List<T> objs, HttpServletResponse response) throws IllegalAccessException, IOException {
+        System.out.println(objs);
         Workbook workbook = createWork(objs, tableName);
         setHeard(workbook,response);
     }

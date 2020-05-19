@@ -7,8 +7,12 @@ import cn.people.domain.vo.UserVO;
 import cn.people.service.UserService;
 import cn.people.utils.common.ExcelUtils;
 import cn.people.utils.common.IdWorker;
+import cn.people.utils.common.PDFUtils;
 import cn.people.utils.factory.FileHandleFactory;
+import com.itextpdf.text.DocumentException;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -28,9 +33,10 @@ import java.util.List;
  * @description:
  */
 @Transactional(rollbackFor = Exception.class)
-@Slf4j
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Resource
     private UserMapper userMapper;
@@ -87,9 +93,28 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void downloadUserFile(HttpServletResponse response) {
+    public void downloadUserFile(HttpServletResponse response)  {
         List<UserInfo> list = userMapper.findUser();
         ExcelUtils excelHandle = FileHandleFactory.getExcelHandle();
-        excelHandle.export("user",list,response);
+        try {
+            excelHandle.export("user",list,response);
+        }catch (Exception e){
+            logger.debug("文件下载失败");
+            logger.debug(e.toString());
+        }
     }
+
+    @Override
+    public void preview(HttpServletResponse response) {
+        List<UserInfo> list = userMapper.findUser();
+        PDFUtils pdfHandle = FileHandleFactory.getPdfHandle();
+        try {
+            pdfHandle.getPdfFile(response,list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.debug("文件预览失败");
+            logger.debug(e.toString());
+        }
+    }
+
 }

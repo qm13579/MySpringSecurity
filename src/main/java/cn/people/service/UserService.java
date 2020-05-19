@@ -5,6 +5,7 @@ import cn.people.domain.vo.UserVO;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -49,4 +50,10 @@ public interface UserService {
      * 下载用户文件
      */
     void downloadUserFile(HttpServletResponse response);
+
+    /**
+     * 文件预览
+     * @param response
+     */
+    void preview(HttpServletResponse response);
 }

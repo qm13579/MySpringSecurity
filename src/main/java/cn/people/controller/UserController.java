@@ -50,11 +50,17 @@ public class UserController {
         model.addAttribute("result",Result.SUCCESS());
         return "index";
     }
+
     @ApiOperation(value = "下载用户文件")
     @RequestMapping(value = "download",method = RequestMethod.GET)
-    public Result downloadUserFile(HttpServletResponse response){
+    public void downloadUserFile(HttpServletResponse response){
         userService.downloadUserFile(response);
-        return Result.SUCCESS();
+    }
+
+    @ApiOperation(value = "预览文件")
+    @RequestMapping(value = "preview",method = RequestMethod.GET)
+    public void pdfPreview(HttpServletResponse response){
+        userService.preview(response);
     }
 
 }
