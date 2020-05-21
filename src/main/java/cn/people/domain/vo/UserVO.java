@@ -40,10 +40,12 @@ public class UserVO extends BaseEntity implements Serializable {
         return "UserVO{" +
                 "id='" + id + '\'' +
                 ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
                 ", password1='" + password1 + '\'' +
                 ", password2='" + password2 + '\'' +
                 ", email='" + email + '\'' +
                 ", mobile='" + mobile + '\'' +
+                ", dep=" + dep +
                 '}';
     }
 }

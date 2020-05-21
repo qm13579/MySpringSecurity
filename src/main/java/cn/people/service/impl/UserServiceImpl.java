@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     }
 
-//    @DataScope(userAlias = "u",deptAlias = "d")
+    @DataScope(userAlias = "u")
     @Override
     public List<UserInfo> findAllUser() {
         List<UserInfo> user = userMapper.findUser();

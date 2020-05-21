@@ -1,6 +1,7 @@
 package cn.people.dao;
 
 import cn.people.dao.provider.UserProvider;
+import cn.people.domain.Dep;
 import cn.people.domain.UserInfo;
 import cn.people.domain.vo.UserVO;
 import org.apache.ibatis.annotations.*;
@@ -21,7 +22,8 @@ public interface UserMapper {
     @Select("select * from user_info where username = #{username}")
     @Results({
             @Result(property = "id",column = "id"),
-            @Result(property = "authorities",column = "id",javaType = java.util.List.class,many = @Many(select = "cn.people.dao.RoleMapper.findRoleByUserId") )
+            @Result(property = "authorities",column = "id",javaType = java.util.List.class,many = @Many(select = "cn.people.dao.RoleMapper.findRoleByUserId") ),
+            @Result(property = "dep",column = "dep",javaType = Dep.class,one = @One(select = "cn.people.dao.DepMapper.findDepById"))
     })
     UserInfo findUserByUsername(String username);
 

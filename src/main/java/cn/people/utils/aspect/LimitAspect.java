@@ -1,7 +1,7 @@
 package cn.people.utils.aspect;
 
 import cn.people.utils.aspect.annotation.Limit;
-import cn.people.utils.common.LimitType;
+import cn.people.utils.common.enums.LimitType;
 import cn.people.utils.common.RequestHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

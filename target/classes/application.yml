@@ -19,5 +19,5 @@ server:
 logging:
   level:
     cn.people: debug
-  file: my_application_logger.log
-  path: C:/Users/FZ/Desktop/pbcProject
+#  file: my_application_logger.log
+#  path: C:/Users/FZ/Desktop/pbcProject

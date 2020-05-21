@@ -1,4 +1,4 @@
-package cn.people.utils.common;
+package cn.people.utils.common.enums;
 
 /**
  * 限流枚举

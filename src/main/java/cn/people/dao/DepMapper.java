@@ -48,13 +48,11 @@ public interface DepMapper {
     void increase(DepVO dep);
 
     /**
-     * 根据id查找
+     * 通过dep id查找
+     * @param id
      * @return
      */
     @Select("select * from department where id = #{id}")
-    @Results({
-            @Result(property = "userInfos",column = "id",javaType = java.util.List.class,many = @Many(select = "cn.people.dao.UserMapper.findUserById"))
-    })
     Dep findDepById(String id);
 
     /**

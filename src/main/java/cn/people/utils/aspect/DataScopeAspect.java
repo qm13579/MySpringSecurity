@@ -4,7 +4,9 @@ import cn.people.domain.Role;
 import cn.people.domain.UserInfo;
 import cn.people.utils.aspect.annotation.DataScope;
 import cn.people.utils.common.BaseEntity;
+import cn.people.utils.common.RoleUtils;
 import cn.people.utils.common.SecurityUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -17,6 +19,7 @@ import java.lang.reflect.Method;
 /**
  * 数据过滤
  */
+@Slf4j
 @Aspect
 @Component
 public class DataScopeAspect {
@@ -83,37 +86,32 @@ public class DataScopeAspect {
      */
     public static void dataScopeFilter(JoinPoint joinPoint, UserInfo user,String depAlias,String userAlias){
         StringBuffer sqlString = new StringBuffer();
-        for (Role role :user.getAuthorities()) {
-            String scope = role.getDataScope();
-
-            if (DATA_SCOPE_ALL.equals(scope)){
-                sqlString = new StringBuffer();
-                break;
-            }
-            else if (DATA_SCOPE_CUSTOM.equals(scope)){
-                sqlString.append(String.format(
-                        " OR %s.id IN (SELECT dept_id FROM) role_m_dept WHERE role_id=%s" ,
-                        depAlias,
-                        role.getId() ));
-            }
-            else if (DATA_SCOPE_DEPT.equals(scope)){
-                sqlString.append(String.format("OR %s.id = %s",depAlias,user.getDep()));
-            }
-            else if (DATA_SCOPE_DEPT_AND_CHILD.equals(scope)){
-                sqlString.append(String.format(
-                        "OR %s.id IN (SELECT id FROM department WHERE id = %s OR find_in_set(%s,ancestors) ) ",
-                        user.getDep(),
-                        user.getDep()));
-            }
-            else if (DATA_SCOPE_SELF.equals(scope)){
-                sqlString.append(String.format("%s.id = %s",userAlias,user.getId()));
-            }
+        Role roleMax = RoleUtils.getRoleMax(user.getAuthorities());
+        String scope = roleMax.getDataScope();
+        if (DATA_SCOPE_ALL.equals(scope)){
+            sqlString.append(String.format("select * from user") );
         }
-
+        else if (DATA_SCOPE_CUSTOM.equals(scope)){
+            sqlString.append(String.format("select * from"));
+        }
+        else if (DATA_SCOPE_DEPT.equals(scope)){
+            sqlString.append(String.format(
+                    "%s where %s.dep=%s",
+                    userAlias,
+                    userAlias,
+                    user.getDep().getId()
+            ));
+        }
+        else if (DATA_SCOPE_DEPT_AND_CHILD.equals(scope)){
+            sqlString.append(String.format(""));
+        }
+        else if (DATA_SCOPE_SELF.equals(scope)){
+            sqlString.append(String.format(""));
+        }
+        log.info(sqlString.toString());
         if (sqlString.toString() != null){
-            BaseEntity baseEntity = (BaseEntity)joinPoint.getArgs()[0];
-            Object arg = joinPoint.getArgs()[0];
-            baseEntity.getParams().put(DATA_SCOPE,"AND ("+sqlString.substring(4)+")");
+//            BaseEntity baseEntity = (BaseEntity)joinPoint.getArgs()[0];
+            user.getParams().put(DATA_SCOPE,sqlString.toString());
         }
     }
 }

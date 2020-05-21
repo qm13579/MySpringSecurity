@@ -82,12 +82,17 @@ public class UserInfo extends BaseEntity implements UserDetails {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserInfo{" +
                 "id='" + id + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", status=" + status +
-                ", roles=" + authorities  +
+                ", dep=" + dep +
+                ", authorities=" + authorities +
+                ", credentialsNonExpired=" + credentialsNonExpired +
+                ", accountNonExpired=" + accountNonExpired +
+                ", accountNonLocked=" + accountNonLocked +
+                ", enabled=" + enabled +
                 '}';
     }
 }

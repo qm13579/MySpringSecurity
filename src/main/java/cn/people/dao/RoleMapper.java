@@ -20,6 +20,7 @@ public interface RoleMapper {
     @Results({
             @Result(property = "authority",column = "role_name"),
             @Result(property = "id",column = "id"),
+            @Result(property = "dataScope",column = "data_scope"),
             @Result(property = "permissions",column = "id",javaType = java.util.List.class,many = @Many(select = "cn.people.dao.PermissionMapper.findPermissionByRoleId")),
             @Result(property = "menums",column = "id" ,javaType = java.util.List.class, many = @Many(select = "cn.people.dao.MenumMapper.findMenumByRoleId"))
     })

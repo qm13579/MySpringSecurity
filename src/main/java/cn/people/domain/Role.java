@@ -34,6 +34,7 @@ public class Role implements GrantedAuthority {
     /** 角色优先级 1为最大 */
     private int level;
 
+
     @Override
     public String toString() {
         return "Role{" +
