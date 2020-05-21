@@ -2,6 +2,7 @@ package cn.people.controller;
 
 import cn.people.domain.vo.UserVO;
 import cn.people.service.UserService;
+import cn.people.utils.aspect.annotation.Limit;
 import cn.people.utils.common.Result;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -57,6 +58,7 @@ public class UserController {
         userService.downloadUserFile(response);
     }
 
+    @Limit(name = "文件预览",key = "preview",count = 10,period = 60)
     @ApiOperation(value = "预览文件")
     @RequestMapping(value = "preview",method = RequestMethod.GET)
     public void pdfPreview(HttpServletResponse response){

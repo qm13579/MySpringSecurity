@@ -38,7 +38,21 @@
 #Excel文件上传下载
     1.构建excel自定义注解类，定义基本基础信息
     2.创建excel工具类进行实体类的
+#redis
+    1.使用redisTemplate类，先重写redisTemplate序列化方式，替换JDK序列化
+    2.自定义缓存key生成策略，并默认使用该策略
+    3.使快速序列化使用fastJson重写序列化器
+#MQ
+
+#工作流
+
+#limit 接口限流
+    1.自定义注解类
+    2.aspect动态增强
+    3.使用reids自增
+#
 #序列化
 fastjaon
 #字符判断
 StringUtils.isNotBlank
+            .isEmpty

@@ -1,10 +1,12 @@
 package cn.people.config;
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.parser.ParserConfig;
-import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
@@ -19,8 +21,11 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.SerializationException;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.HashMap;
 
@@ -41,6 +46,7 @@ public class RedisConfig extends CachingConfigurerSupport {
      *
      * 设置redis序列化方式，过期时间
      */
+    @Bean
     public RedisCacheConfiguration redisCacheConfiguration(){
         FastJsonRedisSerializer<Object> fastJsonRedisSerializer = new FastJsonRedisSerializer<>(Object.class);
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
@@ -85,6 +91,72 @@ public class RedisConfig extends CachingConfigurerSupport {
         template.setHashKeySerializer(new StringRedisSerializer());
         template.setConnectionFactory(redisConnectionFactory);
         return template;
+    }
 
+
+
+}
+
+/**
+ * value序列化
+ * @param <T>
+ */
+class FastJsonRedisSerializer<T> implements RedisSerializer<T>{
+
+    private final Class<T> clzz;
+
+    FastJsonRedisSerializer(Class<T> clzz) {
+        super();
+        this.clzz = clzz;
+    }
+
+    @Override
+    public byte[] serialize(T t) throws SerializationException {
+        if (t == null){
+            return new byte[0];
+        }
+        return JSON.toJSONString(t, SerializerFeature.WriteClassName).getBytes(StandardCharsets.UTF_8);
+    }
+
+    @Override
+    public T deserialize(byte[] bytes) throws SerializationException {
+        if (bytes == null || bytes.length <= 0){
+            return null;
+        }
+        String str = new String(bytes, StandardCharsets.UTF_8);
+        return JSON.parseObject(str,clzz);
+    }
+}
+
+/**
+ *重写序列化器
+ *
+ */
+class StringRedisSerializer implements RedisSerializer<Object>{
+
+    private final Charset charset;
+
+    public StringRedisSerializer() {
+        this(StandardCharsets.UTF_8);
+    }
+
+    StringRedisSerializer(Charset charset) {
+        Assert.notNull(charset,"Charset must not be null!");
+        this.charset = charset;
+    }
+
+    @Override
+    public byte[] serialize(Object o) throws SerializationException {
+        String string = JSON.toJSONString(o);
+        if (StringUtils.isBlank(string)){
+            return null;
+        }
+        string = string.replace("\"","");
+        return string.getBytes(charset);
+    }
+
+    @Override
+    public Object deserialize(byte[] bytes) throws SerializationException {
+        return (bytes == null ? null:new String(bytes,charset));
     }
 }
