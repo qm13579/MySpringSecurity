@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //禁用csrf
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/user/create","/user/download","/user/preview").permitAll()
+                .antMatchers("/user/create","/user/download","/user/preview","/user/find").permitAll()
                 .antMatchers("/swagger**/**","/webjars/**","/swagger**/**","/v2/**","/favicon**","/configuration/**","/images/**").permitAll()
                 .antMatchers("/**/*.html").permitAll()
                 .anyRequest().access("@rbacService.hasPermission(request,authentication)")

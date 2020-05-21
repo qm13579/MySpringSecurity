@@ -5,6 +5,7 @@ import cn.people.dao.UserMapper;
 import cn.people.domain.UserInfo;
 import cn.people.domain.vo.UserVO;
 import cn.people.service.UserService;
+import cn.people.utils.aspect.annotation.DataScope;
 import cn.people.utils.common.ExcelUtils;
 import cn.people.utils.common.IdWorker;
 import cn.people.utils.common.PDFUtils;
@@ -82,9 +83,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     }
 
+//    @DataScope(userAlias = "u",deptAlias = "d")
     @Override
     public List<UserInfo> findAllUser() {
-        return null;
+        List<UserInfo> user = userMapper.findUser();
+        return user;
     }
 
     @Override

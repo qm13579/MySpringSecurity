@@ -1,5 +1,6 @@
 package cn.people.dao;
 
+import cn.people.dao.provider.UserProvider;
 import cn.people.domain.UserInfo;
 import cn.people.domain.vo.UserVO;
 import org.apache.ibatis.annotations.*;
@@ -34,6 +35,6 @@ public interface UserMapper {
     @Select("select * from user_info where id=#{did} ")
     List<UserInfo> findUserById(String did);
 
-    @Select("select * from user_info")
+    @SelectProvider(type = UserProvider.class,method = "selectAllUser")
     List<UserInfo> findUser();
 }

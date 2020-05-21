@@ -1,5 +1,6 @@
 package cn.people.controller;
 
+import cn.people.domain.UserInfo;
 import cn.people.domain.vo.UserVO;
 import cn.people.service.UserService;
 import cn.people.utils.aspect.annotation.Limit;
@@ -17,13 +18,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @author : FENGZHI
  * create at:  2020/5/5  下午9:14
  * @description:
  */
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController {
 
@@ -34,6 +36,7 @@ public class UserController {
     @ApiOperation(value = "用户注册")
     @RequestMapping(value = "create",method = RequestMethod.POST)
     public Result createUser(@Validated(UserVO.Create.class) @RequestBody UserVO userVO){
+        logger.info("创建用户");
         userService.save(userVO);
         return Result.SUCCESS();
     }
@@ -47,9 +50,11 @@ public class UserController {
 
     @ApiOperation(value = "查找所有用户")
     @RequestMapping(value = "find",method = RequestMethod.GET)
-    public String findUser(Model model){
-        model.addAttribute("result",Result.SUCCESS());
-        return "index";
+    public Result findUser(Model model){
+        Result result = Result.SUCCESS();
+        List<UserInfo> allUser = userService.findAllUser();
+        result.setData(allUser);
+        return result;
     }
 
     @ApiOperation(value = "下载用户文件")
@@ -64,5 +69,6 @@ public class UserController {
     public void pdfPreview(HttpServletResponse response){
         userService.preview(response);
     }
+
 
 }

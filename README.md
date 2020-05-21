@@ -56,3 +56,13 @@ fastjaon
 #字符判断
 StringUtils.isNotBlank
             .isEmpty
+#sql查询
+查询本部门 SELECT * from user_info 
+             u WHERE dep = 1
+
+查询本部门及子部门 SELECT * FROM user_info 
+                    u WHERE u.dep in
+                 (SELECT d.id FROM department d WHERE FIND_IN_SET(1,ancestors))
+
+查询本人 SELECT * FROM user_info u
+         WHERE u.id = 1263387390332960768

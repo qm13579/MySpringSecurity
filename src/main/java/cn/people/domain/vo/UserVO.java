@@ -1,16 +1,12 @@
 package cn.people.domain.vo;
 
-import cn.people.domain.Dep;
 import cn.people.utils.common.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-
 /**
  * @author : FENGZHI
  * create at:  2020/5/5  下午9:07
@@ -20,6 +16,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserVO extends BaseEntity implements Serializable {
+
     @NotBlank(groups = {Update.class})
     private String id;
 
