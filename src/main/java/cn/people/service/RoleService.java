@@ -1,7 +1,7 @@
 package cn.people.service;
 
 import cn.people.domain.Role;
-
+import cn.people.domain.vo.RoleVO;
 import java.util.List;
 
 /**
@@ -15,13 +15,13 @@ public interface RoleService {
      * 新增角色
      * @param role
      */
-    void increaseRole(Role role);
+    void increaseRole(RoleVO role);
 
     /**
      * 更新角色
      * @param role
      */
-    void updateRole(Role role);
+    void updateRole(RoleVO role);
 
     /**
      * 查找角色

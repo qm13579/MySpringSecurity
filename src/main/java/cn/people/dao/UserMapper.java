@@ -37,6 +37,21 @@ public interface UserMapper {
     @Select("select * from user_info where id=#{did} ")
     List<UserInfo> findUserById(String did);
 
+    /**
+     * 数据权限查询
+     * @return
+     */
     @SelectProvider(type = UserProvider.class,method = "selectAllUser")
     List<UserInfo> findUser();
+
+    /**
+     * 查找中间表中的角色id
+     * @param id
+     * @return
+     */
+    @Select("select role_id from user_m_role where role_id = #{id}")
+    List<String> userFindRole(String id);
+
+
+
 }

@@ -68,13 +68,12 @@ public class DataScopeAspect {
         //获取当前用户
         UserInfo user = SecurityUtils.getCurrentUser();
         //如果不是超级管理员不过滤数据
-        for (Role role : user.getAuthorities()) {
-            if ("ROLE_ADMIN".equals(role.getAuthority())){
-                return;
-            }else {
-                dataScopeFilter(point,user,scope.deptAlias(),scope.userAlias());
-            }
+        if (RoleUtils.AssertRoleAdmin(user.getAuthorities())){
+            return;
+        }else {
+            dataScopeFilter(point,user,scope.deptAlias(),scope.userAlias());
         }
+
     }
 
     /**
@@ -89,10 +88,15 @@ public class DataScopeAspect {
         Role roleMax = RoleUtils.getRoleMax(user.getAuthorities());
         String scope = roleMax.getDataScope();
         if (DATA_SCOPE_ALL.equals(scope)){
-            sqlString.append(String.format("select * from user") );
+
         }
         else if (DATA_SCOPE_CUSTOM.equals(scope)){
-            sqlString.append(String.format("select * from"));
+            sqlString.append(String.format(
+                    "%s WHERE %s.dep in (SELECT dep_id FROM role_m_dep WHERE user_id = %s)",
+                    userAlias,
+                    userAlias,
+                    user.getId()
+            ));
         }
         else if (DATA_SCOPE_DEPT.equals(scope)){
             sqlString.append(String.format(
@@ -103,14 +107,28 @@ public class DataScopeAspect {
             ));
         }
         else if (DATA_SCOPE_DEPT_AND_CHILD.equals(scope)){
-            sqlString.append(String.format(""));
+            sqlString.append(String.format(
+                    " %s WHERE %s.dep in (SELECT %s.id FROM department %s WHERE FIND_IN_SET(%s,ancestors)) OR %s.dep = %s",
+                    userAlias,
+                    userAlias,
+                    depAlias,
+                    depAlias,
+                    user.getDep().getId(),
+                    userAlias,
+                    user.getDep().getId()
+            ));
         }
         else if (DATA_SCOPE_SELF.equals(scope)){
-            sqlString.append(String.format(""));
+            sqlString.append(String.format(
+                    "u WHERE u.id = u.id",
+                    userAlias,
+                    userAlias,
+                    user.getId()
+            ));
         }
         log.info(sqlString.toString());
         if (sqlString.toString() != null){
-//            BaseEntity baseEntity = (BaseEntity)joinPoint.getArgs()[0];
+            BaseEntity baseEntity = (BaseEntity)joinPoint.getArgs()[0];
             user.getParams().put(DATA_SCOPE,sqlString.toString());
         }
     }

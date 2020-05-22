@@ -27,26 +27,14 @@ public class Role implements GrantedAuthority {
     private List<Permission> permissions;
 
     private List<Menum> menums;
+
+    private String desc;
     /**数据范围 1所有数据，2：自定义数据 3：本部门数据权限 4：本部门以下数据权限*/
     private String dataScope;
 
     private List<Field> fields;
     /** 角色优先级 1为最大 */
     private int level;
-
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id='" + id + '\'' +
-                ", authority='" + authority + '\'' +
-                ", permissions=" + permissions +
-                ", menums=" + menums +
-                ", dataScope='" + dataScope + '\'' +
-                ", fields=" + fields +
-                ", level=" + level +
-                '}';
-    }
 
     @Override
     public String getAuthority() {
@@ -55,5 +43,19 @@ public class Role implements GrantedAuthority {
 
     public void setAuthority(String authority) {
         this.authority = authority;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id='" + id + '\'' +
+                ", authority='" + authority + '\'' +
+                ", permissions=" + permissions +
+                ", menums=" + menums +
+                ", desc='" + desc + '\'' +
+                ", dataScope='" + dataScope + '\'' +
+                ", fields=" + fields +
+                ", level=" + level +
+                '}';
     }
 }
