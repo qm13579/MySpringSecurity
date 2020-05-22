@@ -68,6 +68,7 @@ public class RoleServiceImpl implements RoleService {
 
     }
 
+
     @Override
     public void initRole() {
         long count = roleMapper.countRole();

@@ -42,11 +42,6 @@ public interface RoleService {
      */
     void deleteRoleById(String id);
 
-    /**
-     * 通过id批量删除角色
-     * @param rid
-     */
-    void deleteAllRole(List<String> rid);
 
     /**
      * 初始化角色
