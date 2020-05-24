@@ -47,4 +47,10 @@ public interface RoleService {
      * 初始化角色
      */
     void initRole();
+
+    /**
+     * 关联角色和部门关系
+     * @param role
+     */
+    void creatJoinRoleForDep(RoleVO role);
 }

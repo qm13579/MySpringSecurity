@@ -63,6 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/user/create","/user/download","/user/preview","/user/find").permitAll()
                 .antMatchers("/swagger**/**","/webjars/**","/swagger**/**","/v2/**","/favicon**","/configuration/**","/images/**").permitAll()
+                .antMatchers("/websocket/**").permitAll()
                 .antMatchers("/**/*.html").permitAll()
                 .anyRequest().access("@rbacService.hasPermission(request,authentication)")
                 .and()

@@ -68,7 +68,6 @@ public class RoleServiceImpl implements RoleService {
 
     }
 
-
     @Override
     public void initRole() {
         long count = roleMapper.countRole();
@@ -76,10 +75,18 @@ public class RoleServiceImpl implements RoleService {
             return;
         }
         RoleVO roleAdmin = new RoleVO("admin", "ROLE_ADMIN", "管理员", "1");
-        RoleVO roleUser = new RoleVO("user", "ROLE_User", "一般用户", "3");
+        RoleVO roleUser = new RoleVO("user", "ROLE_USER", "一般用户", "3");
         RoleVO roleDepartment = new RoleVO("department", "ROLE_DEPARTMENT", "部门人员", "4");
         List<RoleVO> roleVOS = Arrays.asList(roleAdmin, roleUser, roleDepartment);
 
         roleVOS.forEach(roleMapper::increaseRole);
+    }
+
+    @Override
+    public void creatJoinRoleForDep(RoleVO role) {
+        roleMapper.deleteUserMRole(role.getId());
+        role.getDeps().forEach(depVO -> {
+            roleMapper.increaseRoleMDep(role.getId(),depVO.getId());
+        });
     }
 }

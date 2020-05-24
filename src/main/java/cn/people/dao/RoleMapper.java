@@ -94,4 +94,13 @@ public interface RoleMapper {
      */
     @Select("select count(*) from role")
     long countRole();
+
+    /**
+     * role_m_dep新增角色和部门之间关联
+     * @param rid
+     * @param did
+     */
+    @Insert("insert into role_m_dep(role_id,dep_id) values(#{rid},#{did})")
+    void increaseRoleMDep(@Param("rid")String rid, @Param("dId")String did );
+
 }

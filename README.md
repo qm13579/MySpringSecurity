@@ -50,19 +50,15 @@
     1.自定义注解类
     2.aspect动态增强
     3.使用reids自增
-#
+#wekSocket
+    1.针对简单的IM的业务场景
+#消息通知
+    1.结合websocket实现实时消息通知，当admin发送新消息时，websocket会及时推送消息到全体在线用户
+    2.在线用户根据消息地址请求后端数据库查看消息
+    3.对于离线用户，消息放在后台，当用户登陆时会自动请求后台查看未读消息
+    4.后端消息存放，当admin创建消息后，把消息记录在数据库，用户查看信息后在中间表中创建一条记录
 #序列化
 fastjaon
 #字符判断
 StringUtils.isNotBlank
             .isEmpty
-#sql查询
-查询本部门 SELECT * from user_info 
-             u WHERE dep = 1
-
-查询本部门及子部门 SELECT * FROM user_info 
-                    u WHERE u.dep in
-                 (SELECT d.id FROM department d WHERE FIND_IN_SET(1,ancestors))
-
-查询本人 SELECT * FROM user_info 
-          u  WHERE u.id = 1263387390332960768
