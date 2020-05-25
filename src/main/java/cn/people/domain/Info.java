@@ -22,6 +22,8 @@ public class Info implements Serializable {
     private String context;
     /**消息时间*/
     private String date;
+    /**消息过期时间*/
+    private String endDate;
     /**发布人*/
     private UserInfo userInfo;
     /**消息状态*/
@@ -33,7 +35,9 @@ public class Info implements Serializable {
                 "id='" + id + '\'' +
                 ", context='" + context + '\'' +
                 ", date='" + date + '\'' +
+                ", endDate='" + endDate + '\'' +
                 ", userInfo=" + userInfo +
+                ", status=" + status +
                 '}';
     }
 }

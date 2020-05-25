@@ -22,6 +22,7 @@ public class BaseEntity  implements Serializable {
 
     public @interface Create {}
     public @interface Update {}
+
     public Map<String,Object> params;
 
     public Map<String, Object> getParams() {
