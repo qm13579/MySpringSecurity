@@ -7,13 +7,20 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = {MyApplication.class})
+
 public class ApiTest {
 
     @Test
     public void testApi(){
-        GetAllUrl getAllUrl = new GetAllUrl();
-        getAllUrl.getAllUrl();
+        MyThread myThread = new MyThread();
+        myThread.start();
+    }
+
+}
+
+class MyThread extends Thread{
+    @Override
+    public void run() {
+        System.out.println("this is thread1");
     }
 }

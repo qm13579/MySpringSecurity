@@ -43,11 +43,11 @@ public interface InfoService {
     Info selectInfo(String id);
 
     /**
-     * 查询未读消息
+     * 查询用户未读消息
      * @return
      * @param uid
      */
-    long countInfo(String uid);
+    List<InfoVO> selectUnreadInfo(String uid);
 
     /**
      * 获取信息情况
@@ -62,4 +62,11 @@ public interface InfoService {
      * @return
      */
     Info userLookOverInfo(String uid, String iid);
+
+    /**
+     * 推送新消息
+     * @return
+     */
+    void newInfoPushUser();
+
 }

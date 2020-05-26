@@ -53,7 +53,7 @@ public class InfoController {
     @RequestMapping("/{uid}")
     public Result selectInfoByUser(@PathVariable("uid") String uid){
         Result result = Result.SUCCESS();
-        List<Info> infos = infoService.selectRoughlyInfo();
+        List<InfoVO> infos = infoService.selectRoughlyInfo();
         result.setData(infos);
         return result;
     }

@@ -8,6 +8,7 @@ import cn.people.domain.vo.InfoVO;
 import cn.people.service.InfoService;
 import cn.people.utils.common.IdWorker;
 import cn.people.utils.common.SecurityUtils;
+import cn.people.utils.websocket.WebSocketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,8 @@ public class InfoServiceImpl implements InfoService {
     private InfoMapper infoMapper;
     @Autowired
     private IdWorker idWorker;
+    @Autowired
+    private WebSocketService webSocketService;
 
     @Override
     public void increaseInfo(InfoVO infoVO) {
@@ -35,8 +38,8 @@ public class InfoServiceImpl implements InfoService {
         info.setId(idWorker.nextId()+"");
         info.getUserInfo().setId(SecurityUtils.getCurrentUser().getId());
         info.setStatus(1);
-
         infoMapper.increaseInfo(info);
+        newInfoPushUser();
     }
 
     @Override
@@ -58,21 +61,30 @@ public class InfoServiceImpl implements InfoService {
 
     @Override
     public Info selectInfo(String id) {
-        return null;
+        return infoMapper.selectInfo(id);
     }
 
     @Override
-    public long countInfo(String uid) {
-        return 0;
+    public List<InfoVO> selectUnreadInfo(String uid) {
+        List<InfoVO> info= infoMapper.selectUnreadInfo(uid);
+        return info;
     }
+
 
     @Override
     public List<Info> selectAllInfo() {
-        return null;
+        return infoMapper.selectAllInfo();
     }
 
     @Override
     public Info userLookOverInfo(String uid, String iid) {
-        return null;
+        infoMapper.increaseLookOverRegister(uid,iid);
+        return infoMapper.userLookOverInfo(iid);
+
+    }
+
+    @Override
+    public void newInfoPushUser() {
+        webSocketService.sendInfo("info");
     }
 }

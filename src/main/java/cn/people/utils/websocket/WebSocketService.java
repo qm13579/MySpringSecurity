@@ -38,6 +38,7 @@ public class WebSocketService {
     /**接收sid*/
     private String sid = "";
 
+
     @OnOpen
     public void onOpen(Session session, @PathParam("sid") String sid){
         this.session = session;
@@ -80,10 +81,10 @@ public class WebSocketService {
         }
     }
 
-    /**自定义群发消息*/
-    public static void sendInfo(String message,@PathParam("sid") String sid){
-        log.info("消息推送{},内容为{}",sid,message);
-        webSocketSet.forEach(socket -> {
+
+    /**在线用户群发消息*/
+    public  void sendInfo(String message){
+        webSocketMap.forEach((str, socket) -> {
             socket.sendMessage(message);
         });
     }
