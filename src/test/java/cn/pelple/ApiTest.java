@@ -1,5 +1,9 @@
 package cn.pelple;
+import cn.people.utils.workflow.dao.DateEvent;
+import cn.people.utils.workflow.dao.EventBase;
 import org.junit.Test;
+
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,9 +59,25 @@ public class ApiTest {
         map.forEach((key,val)->{
             System.out.println(key+":"+val);
         });
+
+        DateEvent dateEvent = new DateEvent();
+        dateEvent.setContext("this date event");
+        System.out.println(dateEvent.getContext());
+
+    }
+    private void testEvent(EventBase eventBase){
+        Class<? extends EventBase> clazz = eventBase.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            System.out.println(field.getName());
+        }
     }
 
+
 }
+
+
+
 /**函数式接口*/
 interface ILike{
     void like();

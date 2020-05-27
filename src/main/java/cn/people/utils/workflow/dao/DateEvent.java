@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 /***
  * 日期时间类-->请假审批
+ * @author apple
  */
 @Data
 @NoArgsConstructor
@@ -16,10 +17,11 @@ import java.io.Serializable;
 public class DateEvent extends EventBase implements Serializable {
 
     /**事件名称*/
-    private final String EVENT_NAME = "date_event";
+    private final String EVENT_NAME = "date";
 
     /**事件结束事件*/
     private String endDate;
+
 
     @Override
     public String toString() {

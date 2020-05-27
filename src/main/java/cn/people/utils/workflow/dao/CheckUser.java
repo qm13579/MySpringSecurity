@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 /**
  * 审批人员类
+ * @author apple
  */
 @Data
 @NoArgsConstructor
