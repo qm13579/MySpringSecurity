@@ -1,5 +1,6 @@
 package cn.people.utils.workflow.dao;
 
+import cn.people.domain.Role;
 import cn.people.domain.UserInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +19,7 @@ public class CheckUser implements Serializable {
     private String id;
     private String level;
     private UserInfo user;
+    private Role role;
 
     @Override
     public String toString() {

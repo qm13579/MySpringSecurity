@@ -26,7 +26,7 @@ public class WorkflowController {
     @ApiOperation(value = "创建时间工单")
     @RequestMapping(value = "date",method = RequestMethod.POST)
     public Result increaseDateWorkflow(@RequestBody DateEvent event){
-        workflowService.increaseWorkflow(event);
+        workflowService.increaseDateWorkflow(event);
         return Result.SUCCESS();
     }
 
