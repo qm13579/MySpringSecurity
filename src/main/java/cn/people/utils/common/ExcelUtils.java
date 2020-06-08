@@ -3,10 +3,14 @@ package cn.people.utils.common;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import cn.people.utils.aspect.annotation.Excel;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +19,7 @@ import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * excel文件处理类
@@ -157,5 +162,63 @@ public class ExcelUtils<T> {
         response.setHeader("content-Disposition","attachment;filename="+ URLEncoder.encode(tableName,"UTF-8"));
         writer.flush(response.getOutputStream());
         writer.close();
+    }
+
+    /**
+     * 把excel转化为list
+     * @param file
+     * @return
+     */
+    public List<T> excelToList(MultipartFile file){
+        String filename = file.getOriginalFilename();
+        if (!isExcel(filename)){
+            return null;
+        }
+        try {
+            List list = importExcel(file);
+            return list;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 判断是否excel文件
+     * @return
+     */
+    public boolean isExcel(String filename){
+        String substring = filename.substring(filename.lastIndexOf("."));
+
+        if (".lxl".equals(substring) || ".xlsx".equals(substring)){
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 创建一个工作薄，获取工作表
+     * @param file
+     * @return
+     * @throws IOException
+     * @throws InvalidFormatException
+     */
+    public List<Map<String,String>> importExcel(MultipartFile file) throws IOException, InvalidFormatException {
+        Workbook workbook = WorkbookFactory.create(file.getInputStream());
+        Sheet sheet = workbook.getSheetAt(0);
+        List<Map<String,String>> list = getRow(sheet);
+        return list;
+    }
+
+    /***
+     * 获取单元格中的内容
+     * @param sheet
+     * @return
+     */
+    public List<Map<String,String>> getRow(Sheet sheet){
+        return null;
     }
 }

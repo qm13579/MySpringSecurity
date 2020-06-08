@@ -17,6 +17,14 @@ public class ApiTest {
             System.out.println("love2");
         }
     }
+
+    @Test
+    public void test3(){
+        String file = "1.lxl";
+        String substring = file.substring(file.lastIndexOf("."));
+        boolean equals = ".lxl".equals(substring);
+        System.out.println(substring+equals);
+    }
     @Test
     public void testApi(){
 
