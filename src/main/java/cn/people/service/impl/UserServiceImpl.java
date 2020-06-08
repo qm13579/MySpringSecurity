@@ -9,6 +9,7 @@ import cn.people.utils.aspect.annotation.DataScope;
 import cn.people.utils.common.ExcelUtils;
 import cn.people.utils.common.IdWorker;
 import cn.people.utils.common.PDFUtils;
+import cn.people.utils.common.SecurityUtils;
 import cn.people.utils.factory.FileHandleFactory;
 import com.itextpdf.text.DocumentException;
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +23,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -75,6 +79,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (userVO.getPassword1() != userVO.getPassword2()){
             throw new SecurityException("密码不一致");
         }
+        if (userVO.getId().isEmpty()){
+            throw new SecurityException("用户id不能为空");
+        }
+        userMapper.updatePassword(passwordEncoder.encode(userVO.getPassword()),userVO.getId());
+
 
     }
 
@@ -118,6 +127,31 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             logger.debug("文件预览失败");
             logger.debug(e.toString());
         }
+    }
+
+    @Override
+    public void updateUserInfo(UserVO user) {
+        userMapper.updateUserInfo(user);
+    }
+
+    @Override
+    public void stopUser(String uid) {
+        userMapper.stopUser(uid);
+    }
+
+    @Override
+    public void fileLoad(MultipartFile file) throws IOException {
+        UserInfo currentUser = SecurityUtils.getCurrentUser();
+        String filename = file.getOriginalFilename();
+        String substring = filename.substring(filename.lastIndexOf("."));
+        filename = currentUser.getId() + substring;
+        File dest = new File(filename);
+        file.transferTo(dest);
+    }
+
+    @Override
+    public void LoadUserFile(MultipartFile file) {
+
     }
 
 }

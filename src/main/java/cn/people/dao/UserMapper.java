@@ -52,6 +52,25 @@ public interface UserMapper {
     @Select("select role_id from user_m_role where role_id = #{id}")
     List<String> userFindRole(String id);
 
+    /**
+     * 更新用户信息
+     * @param user
+     */
+    @Update("update user_info set email=#{email},mobile=#{mobile}")
+    void updateUserInfo(UserVO user);
 
+    /**
+     * 更新密码
+     * @param password
+     * @param id
+     */
+    @Update("update user_info set password=#{password} where id = #{id}")
+    void updatePassword(@Param("password") String password, @Param("id") String id);
 
+    /**
+     * 用户停用
+     * @param uid
+     */
+    @Update("update user_info set status= 1 where id= #{uid} " )
+    void stopUser(String uid);
 }

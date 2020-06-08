@@ -2,6 +2,7 @@ package cn.people.service;
 
 import cn.people.domain.UserInfo;
 import cn.people.domain.vo.UserVO;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -56,4 +57,28 @@ public interface UserService {
      * @param response
      */
     void preview(HttpServletResponse response);
+
+    /**
+     * 更新用户信息
+     * @param user
+     */
+    void updateUserInfo(UserVO user);
+
+    /**
+     * 用户停用
+     * @param uid
+     */
+    void stopUser(String uid);
+
+    /**
+     * 照片上传
+     * @param file
+     */
+    void fileLoad(MultipartFile file) throws IOException;
+
+    /**
+     * 批量增加用户
+     * @param file
+     */
+    void LoadUserFile(MultipartFile file);
 }

@@ -12,12 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -42,7 +41,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "更改用户密码")
-    @RequestMapping(value = "update",method = RequestMethod.PUT)
+    @RequestMapping(value = "password",method = RequestMethod.PUT)
     public Result updatePassword(@Validated(UserVO.Update.class) @RequestBody UserVO userVO){
         userService.update(userVO);
         return Result.SUCCESS();
@@ -57,7 +56,7 @@ public class UserController {
         return result;
     }
 
-    @ApiOperation(value = "下载用户文件")
+    @ApiOperation(value = "下载用户数据")
     @RequestMapping(value = "download",method = RequestMethod.GET)
     public void downloadUserFile(HttpServletResponse response){
         userService.downloadUserFile(response);
@@ -70,5 +69,42 @@ public class UserController {
         userService.preview(response);
     }
 
+    @ApiOperation(value = "更新用户信息")
+    @RequestMapping(value = "",method = RequestMethod.PUT)
+    public Result updateUserInfo(@RequestBody UserVO user){
+        userService.updateUserInfo(user);
+        return Result.SUCCESS();
+    }
+    @ApiOperation(value = "用户停用")
+    @RequestMapping(value = "{uid}",method = RequestMethod.DELETE)
+    public Result stopUser(@PathVariable("uid") String uid){
+        userService.stopUser(uid);
+        return Result.SUCCESS();
+    }
+
+    @ApiOperation(value = "退出登陆")
+    @RequestMapping(value = "out/{uid}",method = RequestMethod.GET)
+    public Result signOut(@PathVariable("uid") String uid){
+        return Result.SUCCESS();
+    }
+
+    @ApiOperation(value = "上传用户照片")
+    @RequestMapping(value = "fileLoad",method = RequestMethod.POST)
+    public Result fileLoad(@RequestParam MultipartFile file){
+        try {
+            userService.fileLoad(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Result.SUCCESS();
+    }
+
+    @ApiOperation(value = "批量上传用户信息")
+    @RequestMapping(value = "loadUserFile")
+    public Result LoadUserFile(@RequestParam MultipartFile file){
+        userService.LoadUserFile(file);
+        Result result = Result.SUCCESS();
+        return result;
+    }
 
 }

@@ -1,5 +1,6 @@
 package cn.people.utils.workflow.mapper;
 
+import cn.people.domain.Dep;
 import cn.people.utils.workflow.dao.CheckUser;
 import cn.people.utils.workflow.dao.DateEvent;
 import cn.people.utils.workflow.dao.EventBase;
@@ -55,4 +56,5 @@ public interface WorkflowMapper {
      */
     List<CheckUser> selectCheckUserAll();
 
+    DateEvent selectCheckWorkflowByRole(Dep dep);
 }
