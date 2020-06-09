@@ -2,8 +2,11 @@ package cn.people.utils.common;
 
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
+import cn.people.domain.Dep;
+import cn.people.domain.UserInfo;
 import cn.people.utils.aspect.annotation.Excel;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -17,9 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * excel文件处理类
@@ -79,7 +80,12 @@ public class ExcelUtils<T> {
         XSSFRow rowColumn = sheet.createRow(0);
         setColumnName(getColumnField(T),rowColumn);
         System.out.println("单元格设置");
-        int rowNum = 1;
+
+        //设置标志位
+        XSSFRow rowFlag = sheet.createRow(1);
+        setFlag(T,rowFlag);
+
+        int rowNum = 2;
         for (Object object : T) {
             XSSFRow row = sheet.createRow(rowNum);
             setCellValue(T,row);
@@ -116,6 +122,21 @@ public class ExcelUtils<T> {
                     row.createCell(colNum).setCellValue(field.get(object).toString());
                 }
                 colNum += 1;
+            }
+        }
+    }
+
+    /**
+     * 设置表中标志位,用户导入数据时获取实体类
+     */
+    private void setFlag(List<T> T,XSSFRow row){
+        for (int i = 0; i < 1; i++) {
+            BaseEntity obj = (BaseEntity) T.get(i);
+            if (!obj.KEY.isEmpty()) {
+                row.createCell(0).setCellValue("flag");
+            }else {
+                row.createCell(0).setCellValue("flag");
+                row.createCell(1).setCellValue(obj.KEY);
             }
         }
     }
@@ -169,7 +190,7 @@ public class ExcelUtils<T> {
      * @param file
      * @return
      */
-    public List<T> excelToList(MultipartFile file){
+    private List<T> excelToList(MultipartFile file){
         String filename = file.getOriginalFilename();
         if (!isExcel(filename)){
             return null;
@@ -189,7 +210,7 @@ public class ExcelUtils<T> {
      * 判断是否excel文件
      * @return
      */
-    public boolean isExcel(String filename){
+    private boolean isExcel(String filename){
         String substring = filename.substring(filename.lastIndexOf("."));
 
         if (".lxl".equals(substring) || ".xlsx".equals(substring)){
@@ -206,7 +227,7 @@ public class ExcelUtils<T> {
      * @throws IOException
      * @throws InvalidFormatException
      */
-    public List<Map<String,String>> importExcel(MultipartFile file) throws IOException, InvalidFormatException {
+    private List<Map<String,String>> importExcel(MultipartFile file) throws IOException, InvalidFormatException {
         Workbook workbook = WorkbookFactory.create(file.getInputStream());
         Sheet sheet = workbook.getSheetAt(0);
         List<Map<String,String>> list = getRow(sheet);
@@ -215,10 +236,46 @@ public class ExcelUtils<T> {
 
     /***
      * 获取单元格中的内容
+     * 根据表格反向生成对象
      * @param sheet
      * @return
      */
-    public List<Map<String,String>> getRow(Sheet sheet){
+    private List<Map<String,String>> getRow(Sheet sheet){
+        //获取总列数
+        Row rowColumnName = sheet.getRow(2);
+        short lastCellNum = rowColumnName.getLastCellNum();
+        //获取总行数
+        int lastRowNum = sheet.getLastRowNum();
+
+
+        //获取列名
+        //获取每行内容
         return null;
+
     }
+
+    /**
+     * 导出模板
+     */
+    public void templateExcel(T obj, HttpServletResponse response){
+        String tableName = "template";
+        List<T> list = Arrays.asList();
+        list.add(obj);
+        try {
+            export(tableName,list,response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 根据标签获取实体类
+     * @return
+     */
+    private Map<String,Object> getPojo(){
+        Map<String,Object> map= new HashMap<String,Object>(3);
+        map.put(UserInfo.KEY,new UserInfo());
+        return map;
+    }
+
 }

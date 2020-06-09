@@ -21,4 +21,6 @@ public @interface Excel {
     /**读取内容转表达式(如：0=男，1=女，2=未知)*/
     String readConverterExp() default "";
 
+    /**实体类识别*/
+    String key() default "";
 }

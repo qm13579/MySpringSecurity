@@ -18,6 +18,7 @@ import java.util.Map;
 @Data
 public class BaseEntity  implements Serializable {
 
+    public static final String KEY = "";
     public static final long serialVersionUID = 1L;
 
     public @interface Create {}

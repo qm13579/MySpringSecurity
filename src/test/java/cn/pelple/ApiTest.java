@@ -1,10 +1,13 @@
 package cn.pelple;
+import cn.people.domain.UserInfo;
 import cn.people.utils.workflow.dao.DateEvent;
 import cn.people.utils.workflow.dao.EventBase;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -20,10 +23,10 @@ public class ApiTest {
 
     @Test
     public void test3(){
-        String file = "1.lxl";
-        String substring = file.substring(file.lastIndexOf("."));
-        boolean equals = ".lxl".equals(substring);
-        System.out.println(substring+equals);
+        UserInfo userInfo = new UserInfo();
+        List<UserInfo> list = Arrays.asList(userInfo);
+        System.out.println(list);
+
     }
     @Test
     public void testApi(){

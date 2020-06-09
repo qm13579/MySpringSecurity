@@ -20,6 +20,9 @@ import java.util.List;
 @AllArgsConstructor
 public class UserInfo extends BaseEntity implements UserDetails {
 
+    /**标识*/
+    public static final String KEY = "user";
+
     @Excel(name = "ID card")
     private String id;
 
