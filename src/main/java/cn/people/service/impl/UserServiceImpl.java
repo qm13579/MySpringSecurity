@@ -24,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import sun.jvm.hotspot.debugger.linux.sparc.LinuxSPARCThreadContext;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +32,7 @@ import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author : FENGZHI
@@ -150,8 +152,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void LoadUserFile(MultipartFile file) {
-
+    public List<Map<String,String>> LoadUserFile(MultipartFile file) {
+        ExcelUtils excelHandle = FileHandleFactory.getExcelHandle();
+        List<Map<String,String>> list = excelHandle.excelToList(file);
+        if (!list.isEmpty()){
+            return null;
+        }
+        return list;
     }
 
 }

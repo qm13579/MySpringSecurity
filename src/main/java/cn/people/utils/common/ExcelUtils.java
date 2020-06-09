@@ -2,19 +2,16 @@ package cn.people.utils.common;
 
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
-import cn.people.domain.Dep;
 import cn.people.domain.UserInfo;
 import cn.people.utils.aspect.annotation.Excel;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.print.DocFlavor;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -190,7 +187,7 @@ public class ExcelUtils<T> {
      * @param file
      * @return
      */
-    private List<T> excelToList(MultipartFile file){
+    public List<Map<String,String>> excelToList(MultipartFile file){
         String filename = file.getOriginalFilename();
         if (!isExcel(filename)){
             return null;
@@ -246,11 +243,45 @@ public class ExcelUtils<T> {
         short lastCellNum = rowColumnName.getLastCellNum();
         //获取总行数
         int lastRowNum = sheet.getLastRowNum();
+        List<String> columnName = new ArrayList<>(lastCellNum);
+        List<Map<String,String>> arrayList = new ArrayList<>(lastRowNum);
 
+        String flag = sheet.getRow(1).getCell(0).getStringCellValue();
+        if (! "flag".equals(flag)){
+            return null;
+        }
 
-        //获取列名
-        //获取每行内容
-        return null;
+        String target = sheet.getRow(1).getCell(1).getStringCellValue();
+        if (!target.isEmpty()){
+            return null;
+        }
+
+        Map<String, Object> objectMap = getPojo();
+        Object object = objectMap.get(target);
+
+        for (int i = 2; i < lastRowNum; i++) {
+            if (i==2){
+                //获取列名
+                Row row = sheet.getRow(2);
+                int ofCells = row.getPhysicalNumberOfCells();
+                for (int i1 = 0; i1 < ofCells; i1++) {
+                    columnName.add(row.getCell(i1).toString());
+                }
+            }else {
+                //获取每行内容
+                Row row = sheet.getRow(i);
+                int ofCells = row.getPhysicalNumberOfCells();
+                Map<String, String> map = new HashMap<>(ofCells);
+                for (int i1 = 0; i1 < ofCells; i1++) {
+
+                    String v = row.getCell(i1).toString();
+                    String k = columnName.get(i1);
+                    map.put(k,v);
+                }
+                arrayList.add(map);
+            }
+        }
+        return arrayList;
 
     }
 

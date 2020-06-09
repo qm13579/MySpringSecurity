@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author : FENGZHI
@@ -80,5 +81,5 @@ public interface UserService {
      * 批量增加用户
      * @param file
      */
-    void LoadUserFile(MultipartFile file);
+    List<Map<String,String>> LoadUserFile(MultipartFile file);
 }
